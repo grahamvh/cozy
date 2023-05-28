@@ -261,6 +261,13 @@ class MPRIS(Server):
 
     def seek(self, offset: int):
         self._player.position = self._player.position / NS_TO_SEC + offset / US_TO_SEC
+        # convert milliseconds to seconds
+        offset_sec=offset / NS_TO_SEC
+        if offset_sec > 0:
+            self._player.forward(offset_sec)
+        elif offset_sec < 0:
+            self._player.rewind(-offset_sec)
+
 
     def get(self, interface: str, property_name: str) -> GLib.Variant:
         if property_name in {"CanQuit", "CanControl"}:
