@@ -29,13 +29,13 @@ class LibraryView:
         self._get_ui_elements()
         self._connect_ui_elements()
 
-        self._connect_view_model()
+        #self._connect_view_model()
 
-        self.populate_book_box()
-        self.populate_author()
-        self.populate_reader()
+        #self.populate_book_box()
+        #self.populate_author()
+        #self.populate_reader()
 
-        self._on_library_view_mode_changed()
+        #self._on_library_view_mode_changed()
 
     def _get_ui_elements(self):
         self._filter_stack: Gtk.Stack = self._builder.get_object("sort_stack")
@@ -48,19 +48,20 @@ class LibraryView:
         self._book_stack: Gtk.Stack = self._builder.get_object("book_stack")
 
     def _connect_ui_elements(self):
+        # This guy fixes things! now why...
         self._filter_stack.connect("notify::visible-child", self._on_sort_stack_changed)
-        self._main_stack.connect("notify::visible-child", self._on_main_stack_changed)
-        self._book_box.set_sort_func(self._view_model.display_book_sort)
-        self._book_box.set_filter_func(self._view_model.display_book_filter)
+        #self._main_stack.connect("notify::visible-child", self._on_main_stack_changed)
+        #self._book_box.set_sort_func(self._view_model.display_book_sort)
+        #self._book_box.set_filter_func(self._view_model.display_book_filter)
 
         # We need to connect to row-activated because it will be emitted when the user clicks on a row
         # which is already activated. This is important for the mobile view
         # row-selected is needed because when setting the row using select_row (e.g. when searching), the row-activated
         # signal doesn't emit.
-        self._author_box.connect("row-activated", self._on_filter_row_activated)
-        self._reader_box.connect("row-activated", self._on_filter_row_activated)
-        self._author_box.connect("row-selected", self._on_filter_row_activated)
-        self._reader_box.connect("row-selected", self._on_filter_row_activated)
+        #self._author_box.connect("row-activated", self._on_filter_row_activated)
+        #self._reader_box.connect("row-activated", self._on_filter_row_activated)
+        #self._author_box.connect("row-selected", self._on_filter_row_activated)
+        #self._reader_box.connect("row-selected", self._on_filter_row_activated)
 
     def _connect_view_model(self):
         self._view_model.bind_to("library_view_mode", self._on_library_view_mode_changed)

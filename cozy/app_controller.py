@@ -75,12 +75,15 @@ class AppController(metaclass=Singleton):
         self.library_view_model.add_listener(self._on_open_view)
         self.library_view_model.add_listener(self._on_library_view_event)
         self.playback_control_view_model.add_listener(self._on_open_view)
-        self.headerbar_view_model.add_listener(self._on_open_view)
+        self.headerbar_view_model.add_listener(self._on_open_view) # this fixes it
+        print("before add_listener")
         self.app_view_model.add_listener(self._on_app_view_event)
 
         self.main_window.add_listener(self._on_main_window_event)
 
         self.power_manager = inject.instance(PowerManager)
+
+      
 
     def configure_inject(self, binder):
         binder.bind_to_provider(SqliteDatabase, get_db)
@@ -123,7 +126,7 @@ class AppController(metaclass=Singleton):
 
     def open_library(self):
         self.library_view_model.open_library()
-        self.app_view_model.view = View.LIBRARY_FILTER
+        self.app_view_model.view = View.LIBRARY_FILTER # This fixes it
 
     def navigate_back(self):
         self.app_view_model.navigate_back()
@@ -150,6 +153,7 @@ class AppController(metaclass=Singleton):
     def _on_app_view_event(self, event: str, data):
         if event == "view":
             self.headerbar_view_model.set_view(data)
+        print("test")
 
     def _on_main_window_event(self, event: str, data):
         if event == "working":

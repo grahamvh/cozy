@@ -36,6 +36,7 @@
                           <object class="AdwLeaflet" id="library_leaflet">
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
+                            <property name="can-unfold">True</property>
                             <property name="hexpand">True</property>
                             <property name="vexpand">True</property>
                             <property name="mode-transition-duration">200</property>
@@ -67,7 +68,7 @@
                                         <child>
                                           <object class="AdwViewStackPage">
                                             <property name="name">author</property>
-                                            <property name="title" translatable="1">Author</property>
+                                            <property name="title" translatable="1">Authors</property>
                                             <property name="icon-name">account-symbolic</property>
                                             <property name="child">
                                               <object class="GtkScrolledWindow" id="sort_author_scroller">

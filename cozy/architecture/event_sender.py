@@ -1,4 +1,5 @@
 from typing import List, Callable
+import traceback
 
 import gi
 
@@ -17,7 +18,11 @@ class EventSender:
         if type(event) is tuple and not message:
             message = event[1]
             event = event[0]
-
+        if str(event) == "view":
+            print("emit_event(" + str(event) + ", " + str(message) + ")")
+            print("listeners:" + str(len(self._listeners)))
+            traceback.print_stack()
+        
         for function in self._listeners:
             function(event, message)
 

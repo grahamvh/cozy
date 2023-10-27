@@ -29,6 +29,7 @@ class HeaderbarViewModel(Observable, EventSender):
         self._state: HeaderBarState = HeaderBarState.PLAYING
         self._work_progress: float = 0.0
         self._work_message: str = ""
+        #self._view: View = View.LIBRARY_FILTER
         self._view: View = View.EMPTY_STATE
 
         self._importer.add_listener(self._on_importer_event)
@@ -66,6 +67,8 @@ class HeaderbarViewModel(Observable, EventSender):
                self._view == View.NO_MEDIA
 
     def set_view(self, value: View):
+        print("set_view(hb)(old): " + str(self._view) )
+        print("set_view(hb)(" + str(value) + ")")
         self._view = value
         self._notify("can_navigate_back")
         self._notify("show_library_filter")

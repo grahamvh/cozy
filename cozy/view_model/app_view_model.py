@@ -1,6 +1,7 @@
 from cozy.architecture.event_sender import EventSender
 from cozy.architecture.observable import Observable
 from cozy.view import View
+import traceback
 
 
 class AppViewModel(Observable, EventSender):
@@ -19,6 +20,8 @@ class AppViewModel(Observable, EventSender):
         self._view = new_value
         self._notify("view")
         self.emit_event_main_thread("view", self._view)
+        print("AppViewModel.view(" + str(new_value)+ ")")
+        traceback.print_stack()
 
     def navigate_back(self):
         if self.view == View.BOOK_DETAIL:
