@@ -82,6 +82,12 @@ class AppController(metaclass=Singleton):
 
         self.power_manager = inject.instance(PowerManager)
 
+        # As the app_view model doesn't have it's listener defined when 
+        # the view is set, We force it to reset, so the listeners get 
+        # called. Fixes app menu not moving to bottem when main window 
+        # goes to mobile size
+        self.app_view_model.view=self.app_view_model.view
+
     def configure_inject(self, binder):
         binder.bind_to_provider(SqliteDatabase, get_db)
         binder.bind("MainWindow", self.main_window)
