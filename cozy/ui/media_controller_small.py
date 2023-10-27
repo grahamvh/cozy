@@ -109,5 +109,5 @@ class MediaControllerSmall(Gtk.Box):
     def _forward_clicked(self, _):
         self._playback_control_view_model.forward()
 
-    def _cover_clicked(self, _, __):
+    def _cover_clicked(self, _, __, ___, ____):
         self._playback_control_view_model.open_book_detail()
