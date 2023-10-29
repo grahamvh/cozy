@@ -1,7 +1,7 @@
 import os
 import subprocess
 
-from gi.repository import Gtk, GObject, Gdk
+from gi.repository import Gtk, GObject, Gdk, Gio
 
 from cozy.model.book import Book
 from cozy.ui.widgets.album_element import AlbumElement
@@ -60,33 +60,32 @@ class BookElement(Gtk.FlowBoxChild):
         self.art.update_progress()
 
     def _create_context_menu(self):
-        menu = Gtk.Menu()
-        read_item = Gtk.MenuItem(label=_("Mark as read"))
-        read_item.connect("button-press-event", self._mark_as_read)
+        menu = Gtk.PopoverMenu()
+        menu_model = Gio.Menu()
 
-        jump_item = Gtk.MenuItem(label=_("Open in file browser"))
-        jump_item.connect("button-press-event", self._jump_to_folder)
+        self.install_action("book_element.mark_read", "", self._mark_as_read)
+        menu_model.append("Mark as read", "book_element.mark_read")
 
-        rm_item = Gtk.MenuItem(label=_("Remove from library"))
-        rm_item.connect("button-press-event", self._remove_book)
+        self.install_action("book_element.jump_to_folder", "", self._jump_to_folder)
+        menu_model.append("Open in file browser", "book_element.jump_to_folder")
 
-        menu.append(read_item)
-        menu.append(jump_item)
-        menu.append(Gtk.SeparatorMenuItem())
-        menu.append(rm_item)
-        menu.attach_to_widget(self)
+        self.install_action("book_element.remove_book", "", self._remove_book)
+        menu_model.append("Remove from library", "book_element.remove_book")
+
+        menu.set_menu_model(menu_model)
+        menu.set_parent(self.container_box)
         return menu
 
-    def _remove_book(self, _, __):
+    def _remove_book(self, _, __, ___):
         if self.context_menu:
             self.context_menu.popdown()
 
         self.emit("book-removed", self.book)
 
-    def _mark_as_read(self, _, __):
+    def _mark_as_read(self, _, __, ___):
         self.book.position = -1
 
-    def _jump_to_folder(self, _, __):
+    def _jump_to_folder(self, _, __, ___):
         """
         Opens the folder containing this books files in the default file explorer.
         """
