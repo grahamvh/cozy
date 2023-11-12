@@ -186,15 +186,10 @@ class LibraryView:
         delete_files = False
 
         if self._view_model.book_files_exist(book):
-            dialog = DeleteBookView()
-            delete_from_library = delete_files = dialog.get_delete_book()
-            dialog.destroy()
+            DeleteBookView(self._view_model, book)
+            return
 
-        if delete_files:
-            self._view_model.delete_book_files(book)
-
-        if delete_from_library:
-            self._view_model.remove_book(book)
+        self._view_model.remove_book(book)
 
     def _current_book_in_playback(self):
         if self._connected_book_element:
