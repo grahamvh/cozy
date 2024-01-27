@@ -219,10 +219,12 @@ class Player(EventSender):
                 return
 
         if file_changed or self._should_jump_to_chapter_position(chapter.position):
+            print("setting position to chapter position: " + str(chapter.position))
             self._gst_player.position = chapter.position
             self._gst_player.playback_speed = self._book.playback_speed
 
         if file_changed or self._book.position != chapter.id:
+            print("setting book position to chapter id: " + str(chapter.id))
             self._book.position = chapter.id
             self.emit_event_main_thread("chapter-changed", self._book)
 

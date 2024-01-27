@@ -392,6 +392,7 @@ class MPRIS(Server):
 
     def _on_current_changed(self) -> None:
         if not self._player.loaded_book:
+            print("mpris: book is not loaded")
             return
 
         self._metadata = self._get_new_metadata(self._player.loaded_book)

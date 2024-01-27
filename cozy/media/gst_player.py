@@ -125,26 +125,43 @@ class GstPlayer(EventSender):
         if self._player:
             self.dispose()
 
+        print('init: test1')
         self._player = Gst.ElementFactory.make("playbin", "player")
+        print('init: test2')
         scaletempo = Gst.ElementFactory.make("scaletempo", "scaletempo")
+        print('init: test3')
         scaletempo.sync_state_with_parent()
 
+        print('init: test4')
         audiobin = Gst.ElementFactory.make("bin", "audiosink")
+        print('init: test5')
         audiobin.add(scaletempo)
+        print('init: test6')
 
         audiosink = Gst.ElementFactory.make("autoaudiosink", "audiosink")
+        print('init: test7')
         audiobin.add(audiosink)
+        print('init: test8')
 
+        print('init: test9')
         scaletempo.link(audiosink)
+        print('init: test10')
         pad = scaletempo.get_static_pad("sink")
+        print('init: test11')
         ghost_pad = Gst.GhostPad.new("sink", pad)
+        print('init: test12')
         audiobin.add_pad(ghost_pad)
+        print('init: test13')
 
         self._player.set_property("audio-sink", audiobin)
+        print('init: test14')
 
         self._bus = self._player.get_bus()
+        print('init: test15')
         self._bus.add_signal_watch()
+        print('init: test16')
         self._bus_signal_id = self._bus.connect("message", self._on_gst_message)
+        print('init: test17')
 
     def dispose(self):
         if not self._player:
@@ -159,15 +176,22 @@ class GstPlayer(EventSender):
         self.emit_event("dispose")
 
     def load_file(self, path: str):
+        print('load_file: test1')
         self.init()
+        print('load_file: test2')
 
         if not os.path.exists(path):
             raise FileNotFoundError()
 
+        print('load_file: test3')
         self._player.set_property("uri", "file://" + path)
+        print('load_file: test4')
         self._player.set_state(Gst.State.PAUSED)
+        print('load_file: test5')
         self._player.set_property("volume", self._volume)
+        print('load_file: test6')
         self._player.set_property("mute", False)
+        print('load_file: test7')
 
     def play(self):
         if not self._is_player_loaded() or self.state == GstPlayerState.PLAYING:
